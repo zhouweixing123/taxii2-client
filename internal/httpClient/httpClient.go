@@ -14,10 +14,10 @@ var connectSession *ConnectionSession
 
 // ConnectionSession 与服务器的连接回话
 type ConnectionSession struct {
-	session *http.Client // 执行http请求
-	user    string       // 用于身份验证的用户名
-	pass    string       // 用于身份验证的密码
-	url     string       // 请求的url
+	Session *http.Client // 执行http请求
+	User    string       // 用于身份验证的用户名
+	Pass    string       // 用于身份验证的密码
+	Url     string       // 请求的url
 }
 
 // NewConnectionSession 创建一个新的连接会话
@@ -27,10 +27,10 @@ func NewConnectionSession(user, pass, url string) *ConnectionSession {
 		return connectSession
 	}
 	return &ConnectionSession{
-		session: &http.Client{}, // 初始化http客户端
-		user:    user,           // 用户名
-		pass:    pass,           // 密码
-		url:     url,            // 请求的url
+		Session: &http.Client{}, // 初始化http客户端
+		User:    user,           // 用户名
+		Pass:    pass,           // 密码
+		Url:     url,            // 请求的url
 	}
 }
 
@@ -77,7 +77,7 @@ func (c *ConnectionSession) sendRequest(method string, requestUrl string, header
 		return nil, err
 	}
 	// 使用Basic Auth进行身份认证
-	req.SetBasicAuth(c.user, c.pass)
+	req.SetBasicAuth(c.User, c.Pass)
 	// 设置请求头细心你
 	for k, v := range headers {
 		req.Header.Set(k, v)
@@ -89,7 +89,7 @@ func (c *ConnectionSession) sendRequest(method string, requestUrl string, header
 	}
 	req.URL.RawQuery = query.Encode()
 	// 执行http请求并返回响应
-	return c.session.Do(req)
+	return c.Session.Do(req)
 }
 
 // filterToQueryParams 将传入的参数进行过滤并转换为查询参数
@@ -154,6 +154,8 @@ func (c *ConnectionSession) formatDatetime(dttm time.Time) string {
 	return formattedTime
 }
 
+// ensureDatetimeToString 确保输入的maybeDttm为time.Time类型，并将其转换为字符串格式返回。
+// 如果maybeDttm不是time.Time类型，则直接返回原始值。
 func (c *ConnectionSession) ensureDatetimeToString(maybeDttm interface{}) interface{} {
 	dttm, ok := maybeDttm.(time.Time)
 	if ok {
@@ -162,10 +164,18 @@ func (c *ConnectionSession) ensureDatetimeToString(maybeDttm interface{}) interf
 	return maybeDttm
 }
 
+// ParseUrl 解析url
 func (c *ConnectionSession) ParseUrl() (*url.URL, error) {
-	parseUrl, err := url.Parse(c.url)
+	parseUrl, err := url.Parse(c.Url)
 	if err != nil {
 		return nil, err
 	}
 	return parseUrl, nil
+}
+
+// Close 关闭连接会话
+func (c *ConnectionSession) Close() {
+	if c.Session != nil {
+		c.Session.CloseIdleConnections()
+	}
 }
