@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gitee.com/zhouweixing/taxii2.git/consts"
-	"gitee.com/zhouweixing/taxii2.git/internal/httpClient"
+	"gitee.com/zhouweixing/taxii2.git/server/httpClient"
 )
 
 // GetCollectionsObject 结构体用于获取集合对象的请求

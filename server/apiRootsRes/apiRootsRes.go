@@ -3,7 +3,7 @@ package apiRootsRes
 import (
 	"encoding/json"
 	"gitee.com/zhouweixing/taxii2.git/consts"
-	"gitee.com/zhouweixing/taxii2.git/internal/httpClient"
+	"gitee.com/zhouweixing/taxii2.git/server/httpClient"
 )
 
 // ApiRoots 结构体用于管理API根路径的相关信息

@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/zhouweixing/taxii2.git/internal/apiRootsRes"
-	"gitee.com/zhouweixing/taxii2.git/internal/collections"
-	"gitee.com/zhouweixing/taxii2.git/internal/getCollectionsData"
-	"gitee.com/zhouweixing/taxii2.git/internal/httpClient"
+	"gitee.com/zhouweixing/taxii2.git/server/apiRootsRes"
+	"gitee.com/zhouweixing/taxii2.git/server/collections"
+	"gitee.com/zhouweixing/taxii2.git/server/getCollectionsData"
+	"gitee.com/zhouweixing/taxii2.git/server/httpClient"
 	"time"
 )
 
